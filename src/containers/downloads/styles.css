@@ -1,0 +1,144 @@
+body {
+  font-family: calibri, arial;
+}
+
+.grid {
+  margin: 10px auto;
+  padding: 0;
+  max-width: 80%;
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+}
+
+.grid div {
+  white-space: nowrap;
+  list-style: none;
+  padding: 5px 5px;
+  border-bottom: solid 1px silver;
+}
+
+.grid div:nth-child(n + 1):not(:nth-child(n + 5)) {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.grid div:nth-child(n + 6):not(:nth-child(n + 11)) {
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  border: solid 2px black;
+}
+
+.available {
+  color: limegreen;
+  font-size: 14px;
+  min-width: 18px;
+  margin-right: 3px;
+  margin-bottom: 20px;
+}
+
+.status {
+  border-bottom: solid 1px silver;
+  display: flex;
+  align-items: center;
+}
+
+.selectArea {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.flexCell {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.label {
+  display: none;
+}
+
+.scheduled {
+  visibility: hidden;
+}
+
+.mobile {
+  display: none;
+}
+
+.center {
+  text-align: center;
+}
+
+.cbLabel {
+  display: none;
+}
+
+@media only screen and (max-width: 760px) {
+  .container {
+    margin: 20px 10px;
+    border: solid 1px silver;
+  }
+  .grid {
+    margin: 10px auto;
+    padding: 0;
+    width: fit-content;
+    display: grid;
+    grid-template-columns: 1fr;
+    border: none;
+    width: -webkit-fill-available;
+    overflow-x: auto;
+  }
+
+  .grid div {
+    border: none;
+  }
+
+  .label {
+    font-weight: bold;
+    display: block;
+    margin-right: 3px;
+  }
+
+  .flexRow {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .gridLabel {
+    display: none;
+  }
+  .status {
+    border-bottom: solid 2px #666 !important;
+  }
+  .ruler {
+    border-bottom: solid 1px silver !important;
+    margin-bottom: 5px;
+  }
+
+  .mobile {
+    display: flex;
+    border-bottom: solid 1px silver;
+    padding: 5px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+
+  .scheduled {
+    display: none;
+  }
+
+  .cbLabel {
+    display: block;
+  }
+}
