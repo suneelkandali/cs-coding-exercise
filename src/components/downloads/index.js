@@ -1,15 +1,14 @@
 import { useState, useRef, useEffect } from "react";
-import "./styles.css";
 import { downloadsData } from "../../data/downloads";
-import { isClickableInput } from "@testing-library/user-event/dist/utils";
 import { IndeterminateCheckbox } from "../../common/inderminatecheckbox";
+import { Checkbox } from "../../common/checkbox";
+import "./styles.css";
 
 export const Downloads = () => {
   const [downloads, setDownloads] = useState([]);
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheckAllIndeterminate, setIsCheckAllIndeterminate] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
-  //const selectAllRef = useRef();
 
   const handleSelectAll = (e) => {
     setIsCheckAll(!isCheckAll);
@@ -57,8 +56,6 @@ export const Downloads = () => {
     }
   };
 
-  console.log(isCheck);
-
   useEffect(() => {
     setDownloads([...downloadsData]);
     if (isCheckAll === false && isCheck.length > 0)
@@ -68,21 +65,8 @@ export const Downloads = () => {
 
   }, [downloadsData, isCheck, isCheckAll]);
 
-  const Checkbox = ({ id, type, name, handleClick, isChecked }) => {
-    return (
-      <input
-        id={id}
-        name={name}
-        type={type}
-        onChange={handleClick}
-        checked={isChecked}
-      />
-    );
-  };
 
   const Download = ({ download }) => {
-    console.log(isCheck.includes(download.id));
-    console.log(download.id);
     return (
       <>
         <div class="selectArea">
@@ -136,14 +120,6 @@ export const Downloads = () => {
       <div class="container">
         <div class="mobile">
           <span>
-            {/* <input
-              type="checkbox"
-              name="selectAll"
-              id="selectAll"
-              onClick={handleSelectAll}
-              checked={isCheckAll}
-              ref={selectAllRef}
-  /> */}
             <IndeterminateCheckbox
               name="selectAll"
               id="selectAll"
@@ -161,13 +137,6 @@ export const Downloads = () => {
         </div>
         <div class="grid">
           <div class="gridLabel">
-            {/*<Checkbox
-              type="checkbox"
-              name="selectAll"
-              id="selectAll"
-              handleClick={handleSelectAll}
-              isChecked={isCheckAll}
-            /> */}
             <IndeterminateCheckbox
               name="selectAll"
               id="selectAll"
