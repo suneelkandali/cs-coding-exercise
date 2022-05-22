@@ -2,12 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import "./styles.css";
 import { downloadsData } from "../../data/downloads";
 import { isClickableInput } from "@testing-library/user-event/dist/utils";
+import { IndeterminateCheckbox } from "../../common/inderminatecheckbox";
 
 export const Downloads = () => {
   const [downloads, setDownloads] = useState([]);
   const [isCheckAll, setIsCheckAll] = useState(false);
+  const [isCheckAllIndeterminate, setIsCheckAllIndeterminate] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
-  const selectAllRef = useRef(null);
+  //const selectAllRef = useRef();
 
   const handleSelectAll = (e) => {
     setIsCheckAll(!isCheckAll);
@@ -29,8 +31,6 @@ export const Downloads = () => {
         setIsCheckAll(true);
       }
     }
-
-
   };
 
   const clickDownloadAll = () => {
@@ -50,10 +50,8 @@ export const Downloads = () => {
             "\n" +
             download.device;
       }
-      if (message != "")
-        alert(message);
-      else
-        alert("The selected items not available for download");
+      if (message != "") alert(message);
+      else alert("The selected items not available for download");
     } else {
       alert("None selected for download");
     }
@@ -63,15 +61,14 @@ export const Downloads = () => {
 
   useEffect(() => {
     setDownloads([...downloadsData]);
+    if (isCheckAll === false && isCheck.length > 0)
+      setIsCheckAllIndeterminate(true);
+    else
+      setIsCheckAllIndeterminate(false);
+
   }, [downloadsData, isCheck, isCheckAll]);
 
-  const Checkbox = ({
-    id,
-    type,
-    name,
-    handleClick,
-    isChecked
-  }) => {
+  const Checkbox = ({ id, type, name, handleClick, isChecked }) => {
     return (
       <input
         id={id}
@@ -139,30 +136,51 @@ export const Downloads = () => {
       <div class="container">
         <div class="mobile">
           <span>
-            <input
+            {/* <input
               type="checkbox"
               name="selectAll"
               id="selectAll"
               onClick={handleSelectAll}
-              isChecked={isCheckAll}
+              checked={isCheckAll}
               ref={selectAllRef}
+  /> */}
+            <IndeterminateCheckbox
+              name="selectAll"
+              id="selectAll"
+              onClick={handleSelectAll}
+              isChecked={isCheckAll}
+              isIndeterminate={isCheckAllIndeterminate}
             />
           </span>
           <span onClick={clickDownloadAll}>
-            {isCheck.length > 0 ? "Selected " + isCheck.length : "None Selected"} | ⤓ Download Selected
+            {isCheck.length > 0
+              ? "Selected " + isCheck.length
+              : "None Selected"}{" "}
+            | ⤓ Download Selected
           </span>
         </div>
         <div class="grid">
           <div class="gridLabel">
-            <Checkbox
+            {/*<Checkbox
               type="checkbox"
               name="selectAll"
               id="selectAll"
               handleClick={handleSelectAll}
               isChecked={isCheckAll}
+            /> */}
+            <IndeterminateCheckbox
+              name="selectAll"
+              id="selectAll"
+              onClick={handleSelectAll}
+              isChecked={isCheckAll}
+              isIndeterminate={isCheckAllIndeterminate}
             />
           </div>
-          <div class="gridLabel">{isCheck.length > 0 ? "Selected " + isCheck.length : "None Selected"}</div>
+          <div class="gridLabel">
+            {isCheck.length > 0
+              ? "Selected " + isCheck.length
+              : "None Selected"}
+          </div>
           <div class="gridLabel" onClick={clickDownloadAll}>
             ⤓ Download Selected
           </div>
