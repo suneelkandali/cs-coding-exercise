@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import "./styles.css";
 import { downloadsData } from "../../data/downloads";
+import { isClickableInput } from "@testing-library/user-event/dist/utils";
 
 export const Downloads = () => {
   const [downloads, setDownloads] = useState([]);
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
+  const selectAllRef = useRef(null);
 
   const handleSelectAll = (e) => {
     setIsCheckAll(!isCheckAll);
@@ -27,16 +29,49 @@ export const Downloads = () => {
         setIsCheckAll(true);
       }
     }
+
+
+  };
+
+  const clickDownloadAll = () => {
+    let message = "";
+    if (isCheck.length > 0) {
+      for (let i = 0; i < isCheck.length; i++) {
+        let download = downloads.find((x) => x.id == isCheck[i]);
+        if (download.status.toLowerCase() == "available")
+          message =
+            message +
+            "\n" +
+            "Path" +
+            "\n" +
+            download.path +
+            "\n" +
+            "Device" +
+            "\n" +
+            download.device;
+      }
+      if (message != "")
+        alert(message);
+      else
+        alert("The selected items not available for download");
+    } else {
+      alert("None selected for download");
+    }
   };
 
   console.log(isCheck);
 
-
   useEffect(() => {
     setDownloads([...downloadsData]);
-  }, [downloadsData]);
+  }, [downloadsData, isCheck, isCheckAll]);
 
-  const Checkbox = ({ id, type, name, handleClick, isChecked }) => {
+  const Checkbox = ({
+    id,
+    type,
+    name,
+    handleClick,
+    isChecked
+  }) => {
     return (
       <input
         id={id}
@@ -104,15 +139,18 @@ export const Downloads = () => {
       <div class="container">
         <div class="mobile">
           <span>
-            <Checkbox
+            <input
               type="checkbox"
               name="selectAll"
               id="selectAll"
-              handleClick={handleSelectAll}
+              onClick={handleSelectAll}
               isChecked={isCheckAll}
+              ref={selectAllRef}
             />
           </span>
-          <span>Selected 0 | ⤓ Download Selected</span>
+          <span onClick={clickDownloadAll}>
+            {isCheck.length > 0 ? "Selected " + isCheck.length : "None Selected"} | ⤓ Download Selected
+          </span>
         </div>
         <div class="grid">
           <div class="gridLabel">
@@ -124,8 +162,10 @@ export const Downloads = () => {
               isChecked={isCheckAll}
             />
           </div>
-          <div class="gridLabel">Selected 0</div>
-          <div class="gridLabel">⤓ Download Selected</div>
+          <div class="gridLabel">{isCheck.length > 0 ? "Selected " + isCheck.length : "None Selected"}</div>
+          <div class="gridLabel" onClick={clickDownloadAll}>
+            ⤓ Download Selected
+          </div>
           <div class="gridLabel">&nbsp;</div>
           <div class="gridLabel">&nbsp;</div>
 
