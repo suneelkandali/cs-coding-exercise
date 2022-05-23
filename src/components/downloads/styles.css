@@ -50,6 +50,10 @@ input[type="checkbox"] {
   align-items: center;
 }
 
+.capitalize {
+  text-transform: capitalize;
+}
+
 .selectArea {
   font-weight: bold;
   display: flex;

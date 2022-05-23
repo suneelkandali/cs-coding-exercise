@@ -26,9 +26,6 @@ export const Downloads = () => {
       setIsCheck(isCheck.filter((item) => item !== id));
     } else {
       setIsCheck([...isCheck, id]);
-      if (downloads.length === isCheck.length + 1) {
-        setIsCheckAll(true);
-      }
     }
   };
 
@@ -58,13 +55,14 @@ export const Downloads = () => {
 
   useEffect(() => {
     setDownloads([...downloadsData]);
-    if (isCheckAll === false && isCheck.length > 0)
-      setIsCheckAllIndeterminate(true);
-    else
+    if (downloads.length > 0 && downloads.length === isCheck.length) {
+      setIsCheckAll(true);
       setIsCheckAllIndeterminate(false);
 
+    } else if (isCheckAll === false && isCheck.length > 0)
+      setIsCheckAllIndeterminate(true);
+    else setIsCheckAllIndeterminate(false);
   }, [downloadsData, isCheck, isCheckAll]);
-
 
   const Download = ({ download }) => {
     return (
@@ -101,12 +99,14 @@ export const Downloads = () => {
             {download.status === "available" && (
               <>
                 <span class="available">🟢&nbsp;&nbsp;</span>
-                <span>{download.status}</span>
+                <span class="capitalize">{download.status}</span>
               </>
             )}
             {download.status === "scheduled" && (
               <>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scheduled</span>
+                <span class="capitalize">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{download.status}
+                </span>
               </>
             )}
           </span>
